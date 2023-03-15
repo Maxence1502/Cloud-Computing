@@ -1,33 +1,36 @@
 version: '3'
 
+# Liste des conteneurs à créer
 services:
-  database:
-    image: mysql:latest
-    restart: always
-    environment:
+  database:           # Création du conteneur MySQL
+    image: mysql:8.0  # Téléchargement depuis https://hub.docker.com/_/mysql
+    restart: always   # Redémarre le conteneur en cas de crash
+    environment:      # Défini des variables nécessaires pour MySQL
       MYSQL_ROOT_PASSWORD: password
       MYSQL_USER: maxence
       MYSQL_PASSWORD: maxence
       MYSQL_DATABASE: cloud_computing
-    networks:
+    networks:         # Ajoute le conteneur dans le réseau privé
       - private_network
-    volumes:
+    volumes:          # Ajoute le volume pour rendre persistances les données de MySQL
       - db_data:/var/lib/mysql
-  web:
-    image: maxence1502/cloud_computing:1.1
-    restart: always
-    ports:
+  web:                # Création du conteneur du serveur web
+    image: maxence1502/cloud_computing:1.1 # Téléchargement depuis https://hub.docker.com/r/maxence1502/cloud_computing
+    restart: always   # Redémarre le conteneur en cas de crash
+    ports:            # Mappe le port 4000 du PC vers le port 80 du conteneur
       - "4000:80"
-    networks:
+    networks:         # Ajoute le conteneur dans le réseau privé
       - private_network
-    volumes:
+    volumes:          # Ajoute un bind-mount pour récupérer les fichiers du site
       - "/mnt/c/Users/maxence/Desktop/Exercices/Cloud computing/Final project/website:/var/www/html/"
-    depends_on:
+    depends_on:       # Lance le conteneur web une fois que MySQL est prêt
       - database
 
+# Liste des volumes à créer
 volumes:
   db_data:
 
+# Liste des réseaux à créer
 networks:
   private_network:
     driver: bridge
