@@ -29,10 +29,12 @@ docker-compose up -d
 # Setup the database
 
 Run the following SQL query in the "database" container to create the default table
-```CREATE TABLE clients (
+```sql
+CREATE TABLE clients (
   id INT NOT NULL AUTO_INCREMENT,
   nom VARCHAR(50) NOT NULL,
   prenom VARCHAR(50) NOT NULL,
   email VARCHAR(100) NOT NULL,
   PRIMARY KEY (id)
-);```
+);
+```
